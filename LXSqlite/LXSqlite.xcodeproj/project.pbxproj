@@ -16,6 +16,8 @@
 		35BA0FBE16D3E2E600174B6E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FBD16D3E2E600174B6E /* Default.png */; };
 		35BA0FC016D3E2E600174B6E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FBF16D3E2E600174B6E /* Default@2x.png */; };
 		35BA0FC216D3E2E600174B6E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FC116D3E2E600174B6E /* Default-568h@2x.png */; };
+		35BA0FCD16D3E3CD00174B6E /* LXSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */; };
+		35BA0FCF16D3E3F800174B6E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,9 @@
 		35BA0FBD16D3E2E600174B6E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		35BA0FBF16D3E2E600174B6E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		35BA0FC116D3E2E600174B6E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		35BA0FCB16D3E3CD00174B6E /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
+		35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
+		35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BA0FCF16D3E3F800174B6E /* libsqlite3.0.dylib in Frameworks */,
 				35BA0FAC16D3E2E600174B6E /* UIKit.framework in Frameworks */,
 				35BA0FAE16D3E2E600174B6E /* Foundation.framework in Frameworks */,
 				35BA0FB016D3E2E600174B6E /* CoreGraphics.framework in Frameworks */,
@@ -68,6 +74,7 @@
 		35BA0FAA16D3E2E600174B6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */,
 				35BA0FAB16D3E2E600174B6E /* UIKit.framework */,
 				35BA0FAD16D3E2E600174B6E /* Foundation.framework */,
 				35BA0FAF16D3E2E600174B6E /* CoreGraphics.framework */,
@@ -80,6 +87,8 @@
 			children = (
 				35BA0FBA16D3E2E600174B6E /* LXAppDelegate.h */,
 				35BA0FBB16D3E2E600174B6E /* LXAppDelegate.m */,
+				35BA0FCB16D3E3CD00174B6E /* LXSqlite.h */,
+				35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */,
 				35BA0FB216D3E2E600174B6E /* Supporting Files */,
 			);
 			path = LXSqlite;
@@ -167,6 +176,7 @@
 			files = (
 				35BA0FB816D3E2E600174B6E /* main.m in Sources */,
 				35BA0FBC16D3E2E600174B6E /* LXAppDelegate.m in Sources */,
+				35BA0FCD16D3E3CD00174B6E /* LXSqlite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

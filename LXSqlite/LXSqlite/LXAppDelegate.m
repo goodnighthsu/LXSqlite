@@ -1,12 +1,18 @@
 //
 //  LXAppDelegate.m
-//  LXSqlite
+//  LeonXuSqite
 //
-//  Created by Leon on 13-2-20.
-//  Copyright (c) 2013年 LeonXu. All rights reserved.
+//  Created by Leon on 13-2-4.
+//  Copyright (c) 2013年 Leon. All rights reserved.
 //
 
 #import "LXAppDelegate.h"
+#import "LXSqlite.h"
+
+
+@implementation MenuEntity
+
+@end
 
 @implementation LXAppDelegate
 
@@ -14,36 +20,58 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    [self test];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+- (void)test
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [LXSqlite shareInstance].dbPath = @"/Users/leon/Documents/PurpleMountain.sqlite";
+    
+    //测试 getModel
+    /*
+     LXSqliteResult *menus = [LXSqlite getModel:@"MenuEntity" bySql:@"select * from Menu_Table"];
+     NSLog(@"state : %@", menus.state);
+     for (MenuEntity *menuEntity in menus.results) {
+     NSLog(@"titlel: %@  detail:%@", menuEntity.title, menuEntity.detail);
+     }
+     */
+    
+    //测试 getDataSet
+    /*
+     LXSqliteResult *menus = [LXSqlite getDataSetBySql:@"select id, title from Menu_Table"];
+     NSLog(@"menus.state :%@", menus.state);
+     NSLog(@"id: %i", [menus.results[1][0] integerValue]);
+     NSLog(@"title: %@", menus.results[1][1]);
+     
+     LXSqliteResult *menus1 = [LXSqlite getDataSetBySql:@"select introid from Menu_Table"];
+     NSLog(@"menus.state :%@", menus1.state);
+     NSLog(@"intorid: %i", [menus1.results[1][0] integerValue]);
+     */
+    
+    //测试 getDataDic
+    LXSqliteResult *menus = [LXSqlite getDataDicBySql:@"select id, title from Menu_Table"];
+    NSLog(@"menus.state :%@", menus.state);
+    if (menus.results != nil) {
+        NSLog(@"id: %i", [menus.results[1][0][@"id"] integerValue]);
+        NSLog(@"title: %@", menus.results[1][1][@"title"]);
+    }
+    
+    LXSqliteResult *menus1 = [LXSqlite getDataDicBySql:@"select introid1 from Menu_Table"];
+    NSLog(@"menus.state :%@", menus1.state);
+    if (menus1.results != nil) {
+        NSLog(@"intorid: %i", [menus1.results[1][0][@"id"] integerValue]);
+    }
+    
+    
+    //测试 exeSql
+    //LXSqliteResult *deleteResult = [lxSqlite executeSql:@"DELETE FROM Menu_Table WHERE id = 109"];
+    //NSLog(@"delete state: %@", deleteResult.state);
+    
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 @end
