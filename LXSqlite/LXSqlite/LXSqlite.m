@@ -79,7 +79,7 @@ static LXSqlite *shareInstance = nil;
     __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
     NSAssert(dbPath != nil, @"LXSqlite error: dbPath = nil");
     NSAssert(![dbPath isEqualToString:@""], @"LXSqlite error: dbPath = NULL");
-   
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL find = [fileManager fileExistsAtPath:dbPath];
     if (find) {
@@ -143,70 +143,32 @@ static LXSqlite *shareInstance = nil;
 - (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
 {
     __autoreleasing LXSqliteResult *result = [self getStatement:sql callback:^(sqlite3_stmt *statement)
-     {
-         __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
-         NSArray *columns = [self getColumn:statement];
-         
-         while (sqlite3_step(statement) == SQLITE_ROW) {
-             id model = [[NSClassFromString(className) alloc] init];
-             for (NSInteger n = 0; n < columns.count; n++) {
-                 Column *column = [columns objectAtIndex:n];
-                 id value = [self getColumnValue:statement atIndex:n];
-                 [model setValue:value forKey:column.name];
-             }
-             
-             [result.results addObject:model];
-         }
-         
-         return  result;
-     }];
+                                              {
+                                                  __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
+                                                  NSArray *columns = [self getColumn:statement];
+                                                  
+#warning 应该在这里比对下model 和 数据库Columns
+                                                  
+                                                  while (sqlite3_step(statement) == SQLITE_ROW) {
+                                                      id model = [[NSClassFromString(className) alloc] init];
+                                                      for (NSInteger n = 0; n < columns.count; n++) {
+                                                          
+                                                          id value = [self getColumnValue:statement atIndex:n];
+                                                          //value = Null 时，nil
+                                                          if (![value isEqual:[NSNull null]]) {
+                                                              Column *column = [columns objectAtIndex:n];
+                                                              [model setValue:value forKey:column.name];
+                                                          }
+                                                      }
+                                                      
+                                                      [result.results addObject:model];
+                                                  }
+                                                  
+                                                  return  result;
+                                              }];
     
     return result;
 }
-
-
-/*
-- (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
-{
-    __autoreleasing LXSqliteResult *result = [self openDB:^{
-        LXSqliteResult *result = [[LXSqliteResult alloc] init];
-        sqlite3_stmt *statement;
-        NSInteger errorCode = sqlite3_prepare_v2(db, [sql UTF8String], -1, &statement, nil);
-        
-        if (errorCode != SQLITE_OK) {
-            //sql 错误
-            result.state = [self errorMessage:sql errorCode:errorCode];
-        }else{
-            //sql 正确解析
-            //get column struct
-            
-            NSArray *columns = [self getColumn:statement];
-            
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                id model = [[NSClassFromString(className) alloc] init];
-                for (NSInteger n = 0; n < columns.count; n++) {
-                    Column *column = [columns objectAtIndex:n];
-                    id value = [self getColumnValue:statement atIndex:n];
-                    [model setValue:value forKey:column.name];
-                }
-                
-                [result.results addObject:model];
-            }
-            
-            if (result.results.count == 0) {
-                result.results = nil;
-            }
-        }
-        
-        //释放staement
-        sqlite3_finalize(statement);
-        
-        return result;
-    }];
-    
-    return result;
-}
- */
 
 #pragma mark - Get DataSet
 - (LXSqliteResult *)getDataSetBySql:(NSString *)sql
@@ -221,12 +183,15 @@ static LXSqlite *shareInstance = nil;
             for (NSInteger n = 0; n < columns.count; n++) {
                 //
                 id value = [self getColumnValue:statement atIndex:n];
-                [arrays addObject:value];
+                if (![value isEqual:[NSNull null]])
+                {
+                    [arrays addObject:value];
+                }
             }
             
             [result.results addObject:arrays];
         }
-    
+        
         return result;
     }];
     
@@ -245,11 +210,14 @@ static LXSqlite *shareInstance = nil;
             NSMutableArray *arrays = [NSMutableArray array];
             for (NSInteger n = 0; n < columns.count; n++) {
                 //
-                Column *column = [columns objectAtIndex:n];
                 id value = [self getColumnValue:statement atIndex:n];
-                NSDictionary *columnDic = [NSDictionary dictionaryWithObject:value forKey:column.name];
+                if (![value isEqual:[NSNull null]]) {
+                    Column *column = [columns objectAtIndex:n];
+                    NSDictionary *columnDic = [NSDictionary dictionaryWithObject:value forKey:column.name];
+                    
+                    [arrays addObject:columnDic];
+                }
                 
-                [arrays addObject:columnDic];
             }
             
             [result.results addObject:arrays];
@@ -294,7 +262,7 @@ static LXSqlite *shareInstance = nil;
         const char *name = sqlite3_column_name(statement, n);
         column.name = [NSString stringWithUTF8String:name];
         
-        //column type 
+        //column type
         column.type = sqlite3_column_type(statement, n);
         [results addObject:column];
     }
@@ -351,7 +319,8 @@ static LXSqlite *shareInstance = nil;
             
         case SQLITE_NULL:
         {
-            NSLog(@"LXSqlite->getColumnValue:atIndex->sqilte = null atIndex %i", index);
+            //NSLog(@"LXSqlite->getColumnValue:atIndex->sqilte = null atIndex %i", index);
+            result = [NSNull null];
         }
             break;
             
@@ -359,6 +328,7 @@ static LXSqlite *shareInstance = nil;
             break;
     }
     
+    //在DataSet和DataDic 里有NSArray addObject这样的操作，所有不能有nil
     NSAssert(result != nil, @"getColumnValue atindex = nil");
     
     return result;
@@ -384,7 +354,7 @@ static LXSqlite *shareInstance = nil;
 
 #pragma mark - Deprecated
 /*
-- (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
+ - (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
  {
  __autoreleasing LXSqliteResult *result = [self openDB:^{
  LXSqliteResult *result = [[LXSqliteResult alloc] init];
@@ -412,58 +382,60 @@ static LXSqlite *shareInstance = nil;
  
  return result;
  }
-
-
-- (id)checkProperty:(NSString *)className statement:(sqlite3_stmt *)statement
-{
-    __autoreleasing id model = [[NSClassFromString(className) alloc] init];
-    unsigned int outCount, index;
-    objc_property_t *properties = class_copyPropertyList([model class], &outCount);
-    for (index = 0; index<outCount; index++)
-    {
-        objc_property_t property = properties[index];
-        //属性name
-        const char* char_name =property_getName(property);
-        NSString *propertyName = [NSString stringWithUTF8String:char_name];
-        //属性attribut
-        const char* char_attribute = property_getAttributes(property);
-        NSString *propertyAttribute = [NSString stringWithUTF8String:char_attribute];
-        
-        //封装
-        NSArray *attributs = [propertyAttribute componentsSeparatedByString:@","];
-        if ([attributs count] != 0) {
-            NSString *type = attributs[0];
-            //enmu、int、signed
-            if ([type isEqualToString:@"Ti"]) {
-                int intResult = (int)sqlite3_column_int(statement, index);
-                [model setValue:[NSNumber numberWithInt:intResult] forKey:propertyName];
-            }
-            
-            //float
-            if ([type isEqualToString:@"Tf"]) {
-                float floatResult = (float)sqlite3_column_double(statement, index);
-                [model setValue:[NSNumber numberWithDouble:floatResult] forKey:propertyName];
-            }
-            
-            //NSString
-            if ([type isEqualToString:@"T@\"NSString\""]) {
-                char *charResult =  (char *)sqlite3_column_text(statement, index);
-                if (charResult == NULL) {
-                    //null
-                    [model setValue:[NSNull null] forKey:propertyName];
-                }else{
-                    [model setValue:[NSString stringWithUTF8String:charResult] forKey:propertyName];
-                }
-            }
-        }
-    }
  
-    free(properties);
-    if (model == nil) {
-        model = [NSNull null];
-    }
-    return model;
-}
+ 
+ 
+ //按照数据库的定义，构造了model Class
+ - (id)checkProperty:(NSString *)className statement:(sqlite3_stmt *)statement
+ {
+ __autoreleasing id model = [[NSClassFromString(className) alloc] init];
+ unsigned int outCount, index;
+ objc_property_t *properties = class_copyPropertyList([model class], &outCount);
+ for (index = 0; index<outCount; index++)
+ {
+ objc_property_t property = properties[index];
+ //属性name
+ const char* char_name =property_getName(property);
+ NSString *propertyName = [NSString stringWithUTF8String:char_name];
+ //属性attribut
+ const char* char_attribute = property_getAttributes(property);
+ NSString *propertyAttribute = [NSString stringWithUTF8String:char_attribute];
+ 
+ //封装
+ NSArray *attributs = [propertyAttribute componentsSeparatedByString:@","];
+ if ([attributs count] != 0) {
+ NSString *type = attributs[0];
+ //enmu、int、signed
+ if ([type isEqualToString:@"Ti"]) {
+ int intResult = (int)sqlite3_column_int(statement, index);
+ [model setValue:[NSNumber numberWithInt:intResult] forKey:propertyName];
+ }
+ 
+ //float
+ if ([type isEqualToString:@"Tf"]) {
+ float floatResult = (float)sqlite3_column_double(statement, index);
+ [model setValue:[NSNumber numberWithDouble:floatResult] forKey:propertyName];
+ }
+ 
+ //NSString
+ if ([type isEqualToString:@"T@\"NSString\""]) {
+ char *charResult =  (char *)sqlite3_column_text(statement, index);
+ if (charResult == NULL) {
+ //null
+ [model setValue:[NSNull null] forKey:propertyName];
+ }else{
+ [model setValue:[NSString stringWithUTF8String:charResult] forKey:propertyName];
+ }
+ }
+ }
+ }
+ 
+ free(properties);
+ if (model == nil) {
+ model = [NSNull null];
+ }
+ return model;
+ }
  */
 
 #pragma mark - Message
