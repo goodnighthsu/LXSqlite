@@ -9,7 +9,6 @@
 #import "LXAppDelegate.h"
 #import "LXSqlite.h"
 
-
 @implementation MenuEntity
 
 @end
@@ -29,16 +28,16 @@
 
 - (void)test
 {
-    [LXSqlite shareInstance].dbPath = @"/Users/leon/Documents/PurpleMountain.sqlite";
+    [LXSqlite shareInstance].dbPath = [[NSBundle mainBundle] pathForResource:@"PurpleMountain" ofType:@"sqlite"];
+    //[LXSqlite shareInstance].dbPath = @"/Users/leon/Documents/PurpleMountain.sqlite";
     
     //测试 getModel
-    /*
-     LXSqliteResult *menus = [LXSqlite getModel:@"MenuEntity" bySql:@"select * from Menu_Table"];
-     NSLog(@"state : %@", menus.state);
+     LXSqliteResult *menus = [LXSqlite getModel:@"MenuEntity" bySql:@"select * from Menu_Table" tolerance:NO];
+     NSLog(@"state : %@", menus.message);
      for (MenuEntity *menuEntity in menus.results) {
      NSLog(@"titlel: %@  detail:%@", menuEntity.title, menuEntity.detail);
      }
-     */
+
     
     //测试 getDataSet
     /*
@@ -51,25 +50,27 @@
      NSLog(@"menus.state :%@", menus1.state);
      NSLog(@"intorid: %i", [menus1.results[1][0] integerValue]);
      */
-    
+    /*
     //测试 getDataDic
     LXSqliteResult *menus = [LXSqlite getDataDicBySql:@"select id, title from Menu_Table"];
-    NSLog(@"menus.state :%@", menus.state);
+    NSLog(@"menus.state :%@", menus.message);
     if (menus.results != nil) {
         NSLog(@"id: %i", [menus.results[1][0][@"id"] integerValue]);
         NSLog(@"title: %@", menus.results[1][1][@"title"]);
     }
     
     LXSqliteResult *menus1 = [LXSqlite getDataDicBySql:@"select introid1 from Menu_Table"];
-    NSLog(@"menus.state :%@", menus1.state);
+    NSLog(@"menus.state :%@", menus1.message);
     if (menus1.results != nil) {
         NSLog(@"intorid: %i", [menus1.results[1][0][@"id"] integerValue]);
-    }
+    }*/
     
     
-    //测试 exeSql
-    //LXSqliteResult *deleteResult = [lxSqlite executeSql:@"DELETE FROM Menu_Table WHERE id = 109"];
-    //NSLog(@"delete state: %@", deleteResult.state);
+    /*
+    测试 exeSql
+    LXSqliteResult *deleteResult = [lxSqlite executeSql:@"DELETE FROM Menu_Table WHERE id = 109"];
+    NSLog(@"delete state: %@", deleteResult.state);
+     */
     
 }
 

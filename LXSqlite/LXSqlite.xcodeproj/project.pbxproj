@@ -6,7 +6,23 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		356A0E2F17A76E240084DBDF /* Documention */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 356A0E3217A76E240084DBDF /* Build configuration list for PBXAggregateTarget "Documention" */;
+			buildPhases = (
+				356A0E3317A76E910084DBDF /* Run Script */,
+			);
+			dependencies = (
+			);
+			name = Documention;
+			productName = Documention;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		356A0E2E17A6821E0084DBDF /* PurpleMountain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */; };
+		356A0E3B17A792D80084DBDF /* LXSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 356A0E3A17A792D80084DBDF /* LXSqlite.m */; };
 		35BA0FAC16D3E2E600174B6E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAB16D3E2E600174B6E /* UIKit.framework */; };
 		35BA0FAE16D3E2E600174B6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAD16D3E2E600174B6E /* Foundation.framework */; };
 		35BA0FB016D3E2E600174B6E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAF16D3E2E600174B6E /* CoreGraphics.framework */; };
@@ -16,11 +32,14 @@
 		35BA0FBE16D3E2E600174B6E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FBD16D3E2E600174B6E /* Default.png */; };
 		35BA0FC016D3E2E600174B6E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FBF16D3E2E600174B6E /* Default@2x.png */; };
 		35BA0FC216D3E2E600174B6E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BA0FC116D3E2E600174B6E /* Default-568h@2x.png */; };
-		35BA0FCD16D3E3CD00174B6E /* LXSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */; };
 		35BA0FCF16D3E3F800174B6E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = PurpleMountain.sqlite; sourceTree = "<group>"; };
+		356A0E3617A772290084DBDF /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
+		356A0E3917A792D80084DBDF /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
+		356A0E3A17A792D80084DBDF /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
 		35BA0FA716D3E2E600174B6E /* LXSqlite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LXSqlite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35BA0FAB16D3E2E600174B6E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		35BA0FAD16D3E2E600174B6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -34,8 +53,6 @@
 		35BA0FBD16D3E2E600174B6E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		35BA0FBF16D3E2E600174B6E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		35BA0FC116D3E2E600174B6E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		35BA0FCB16D3E3CD00174B6E /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
-		35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
 		35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,9 +71,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		356A0E3817A792D80084DBDF /* LXSqlite */ = {
+			isa = PBXGroup;
+			children = (
+				356A0E3917A792D80084DBDF /* LXSqlite.h */,
+				356A0E3A17A792D80084DBDF /* LXSqlite.m */,
+			);
+			path = LXSqlite;
+			sourceTree = "<group>";
+		};
 		35BA0F9C16D3E2E600174B6E = {
 			isa = PBXGroup;
 			children = (
+				356A0E3617A772290084DBDF /* Readme.markdown */,
 				35BA0FB116D3E2E600174B6E /* LXSqlite */,
 				35BA0FAA16D3E2E600174B6E /* Frameworks */,
 				35BA0FA816D3E2E600174B6E /* Products */,
@@ -85,10 +112,10 @@
 		35BA0FB116D3E2E600174B6E /* LXSqlite */ = {
 			isa = PBXGroup;
 			children = (
+				356A0E3817A792D80084DBDF /* LXSqlite */,
+				356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */,
 				35BA0FBA16D3E2E600174B6E /* LXAppDelegate.h */,
 				35BA0FBB16D3E2E600174B6E /* LXAppDelegate.m */,
-				35BA0FCB16D3E3CD00174B6E /* LXSqlite.h */,
-				35BA0FCC16D3E3CD00174B6E /* LXSqlite.m */,
 				35BA0FB216D3E2E600174B6E /* Supporting Files */,
 			);
 			path = LXSqlite;
@@ -151,6 +178,7 @@
 			projectRoot = "";
 			targets = (
 				35BA0FA616D3E2E600174B6E /* LXSqlite */,
+				356A0E2F17A76E240084DBDF /* Documention */,
 			);
 		};
 /* End PBXProject section */
@@ -164,10 +192,28 @@
 				35BA0FBE16D3E2E600174B6E /* Default.png in Resources */,
 				35BA0FC016D3E2E600174B6E /* Default@2x.png in Resources */,
 				35BA0FC216D3E2E600174B6E /* Default-568h@2x.png in Resources */,
+				356A0E2E17A6821E0084DBDF /* PurpleMountain.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		356A0E3317A76E910084DBDF /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"leonxu\" \\\n--company-id \"com.leonxu\" \\\n--output \"~/Projects/Help/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.markdown\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		35BA0FA316D3E2E600174B6E /* Sources */ = {
@@ -176,7 +222,7 @@
 			files = (
 				35BA0FB816D3E2E600174B6E /* main.m in Sources */,
 				35BA0FBC16D3E2E600174B6E /* LXAppDelegate.m in Sources */,
-				35BA0FCD16D3E3CD00174B6E /* LXSqlite.m in Sources */,
+				356A0E3B17A792D80084DBDF /* LXSqlite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +240,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		356A0E3017A76E240084DBDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		356A0E3117A76E240084DBDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		35BA0FC316D3E2E600174B6E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -252,6 +312,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LXSqlite/LXSqlite-Prefix.pch";
 				INFOPLIST_FILE = "LXSqlite/LXSqlite-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -263,6 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LXSqlite/LXSqlite-Prefix.pch";
 				INFOPLIST_FILE = "LXSqlite/LXSqlite-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -271,6 +333,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		356A0E3217A76E240084DBDF /* Build configuration list for PBXAggregateTarget "Documention" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				356A0E3017A76E240084DBDF /* Debug */,
+				356A0E3117A76E240084DBDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		35BA0FA116D3E2E600174B6E /* Build configuration list for PBXProject "LXSqlite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -287,6 +357,7 @@
 				35BA0FC716D3E2E600174B6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

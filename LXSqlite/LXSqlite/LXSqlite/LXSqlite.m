@@ -11,6 +11,15 @@
 
 static LXSqlite *shareInstance = nil;
 
+
+/** 数据列 */
+@interface Column : NSObject
+
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) NSInteger type;
+
+@end
+
 @implementation Column
 
 @end
@@ -42,7 +51,7 @@ static LXSqlite *shareInstance = nil;
     return self;
 }
 
-#pragma mark 单例
+#pragma mark  - 单例
 + (LXSqlite *)shareInstance
 {
     @synchronized(self)
@@ -55,10 +64,26 @@ static LXSqlite *shareInstance = nil;
     return  shareInstance;
 }
 
-+ (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
+#pragma mark  - 创建 Database
+//sqlite open 在发现没有database的情况下默认直接创建database
+//我在openDb 中默认关闭这一操作
++( LXSqliteResult *)createDB:(NSString *)dbPath
 {
     __autoreleasing LXSqlite *lxSqlite = [LXSqlite shareInstance];
-    return [lxSqlite getModel:className bySql:sql];
+    return [lxSqlite createDB:dbPath];
+}
+
+#pragma mark - 获取操作结果的三种方法ValueObject, Array, Dictionary
++ (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
+{
+    return [LXSqlite getModel:className bySql:sql tolerance:YES];
+}
+
++ (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql tolerance:(BOOL)tolerance
+{
+    __autoreleasing LXSqlite *lxSqlite = [LXSqlite shareInstance];
+
+    return [lxSqlite getModel:className bySql:sql tolerance:YES];
 }
 
 + (LXSqliteResult *)getDataSetBySql:(NSString *)sql
@@ -71,6 +96,36 @@ static LXSqlite *shareInstance = nil;
 {
     __autoreleasing LXSqlite *lxSqlite = [LXSqlite shareInstance];
     return [lxSqlite getDataDicBySql:sql];
+}
+
+#pragma mark - Create
+- (LXSqliteResult *)createDB:(NSString *)dbPath
+{
+    __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
+    NSAssert(dbPath != nil, @"LXSqlite error: dbPath = nil");
+    NSAssert(![dbPath isEqualToString:@""], @"LXSqlite error: dbPath = NULL");
+    
+    if(sqlite3_open([dbPath UTF8String], &_db) != SQLITE_OK)
+    {
+        result.results = nil;
+        result.message = [self errorMessage:@"create database faile:" errorMessage:dbPath];
+        result.code = 400;
+    }else{
+        result.code = 200;
+        sqlite3_close(_db);
+    }
+    
+    return result;
+    
+}
+
+#pragma mark - Execute
++ (LXSqliteResult *)executeSql:(NSString *)sql
+{
+    __autoreleasing LXSqlite *lxSqlite = [LXSqlite shareInstance];
+    LXSqliteResult *result = [lxSqlite executeSql:sql];
+    return result;
+    
 }
 
 #pragma mark - OPEN & CLOSE DB
@@ -88,13 +143,15 @@ static LXSqlite *shareInstance = nil;
             result = callback();
         }else{
             result.results = nil;
-            result.state = [self errorMessage:dbPath errorMessage:@"can not open database"];
+            result.message = [self errorMessage:dbPath errorMessage:@"can not open database"];
+            result.code = 400;
         }
         sqlite3_close(_db);
     }else
     {
         result.results = nil;
-        result.state = [self errorMessage:dbPath errorMessage:@"can not find database"];
+        result.message = [self errorMessage:dbPath errorMessage:@"can not find database"];
+        result.code = 200;
     }
     
     
@@ -107,7 +164,7 @@ static LXSqlite *shareInstance = nil;
     return [self openDB:self.dbPath callback:callbackBlock];
 }
 
-#pragma mark - get statement
+#pragma mark - Get statement
 - (LXSqliteResult *)getStatement:(NSString *)sql callback:(LXSqliteResult *(^)(sqlite3_stmt *))callback
 {
     __autoreleasing LXSqliteResult *result = [self openDB:^{
@@ -118,12 +175,14 @@ static LXSqlite *shareInstance = nil;
         if (errorCode != SQLITE_OK) {
             //sql 错误
             result.results = nil;
-            result.state = [self errorMessage:sql errorCode:errorCode];
+            result.message = [self errorMessage:sql errorCode:errorCode];
+            result.code = 400;
         }else{
             //sql 正确解析
             //get column struct
             result = callback(statement);
-            result.state = [self succeedMessage:sql];
+            result.message = [self succeedMessage:sql];
+            result.code = 200;
             
             if (result.results.count == 0) {
                 result.results = nil;
@@ -139,16 +198,14 @@ static LXSqlite *shareInstance = nil;
     return result;
 }
 
-#pragma mark - Get Model
-- (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql
+#pragma mark - Get ValueObject
+- (LXSqliteResult *)getModel:(NSString *)className bySql:(NSString *)sql tolerance:(BOOL)tolerance
 {
     __autoreleasing LXSqliteResult *result = [self getStatement:sql callback:^(sqlite3_stmt *statement)
                                               {
                                                   __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
                                                   NSArray *columns = [self getColumn:statement];
-                                                  
-#warning 应该在这里比对下model 和 数据库Columns
-                                                  
+
                                                   while (sqlite3_step(statement) == SQLITE_ROW) {
                                                       id model = [[NSClassFromString(className) alloc] init];
                                                       for (NSInteger n = 0; n < columns.count; n++) {
@@ -157,7 +214,22 @@ static LXSqlite *shareInstance = nil;
                                                           //value = Null 时，nil
                                                           if (![value isEqual:[NSNull null]]) {
                                                               Column *column = [columns objectAtIndex:n];
-                                                              [model setValue:value forKey:column.name];
+                                                              if (tolerance) {
+                                                                  @try {
+                                                                      [model setValue:value forKey:column.name];
+                                                                  }
+                                                                  @catch (NSException *exception) {
+                                                                      NSLog(@"NO key:%@", column.name);
+                                                                  }
+                                                                  @finally {
+                                                                      //
+                                                                  }
+                                                              }else
+                                                              {
+                                                                  [model setValue:value forKey:column.name];
+                                                              }
+                                                              
+                                                          
                                                           }
                                                       }
                                                       
@@ -205,22 +277,20 @@ static LXSqlite *shareInstance = nil;
         __autoreleasing LXSqliteResult *result = [[LXSqliteResult alloc] init];
         //
         NSArray *columns = [self getColumn:statement];
-        //
         while (sqlite3_step(statement) == SQLITE_ROW) {
-            NSMutableArray *arrays = [NSMutableArray array];
+
+            NSMutableDictionary *columnDic = [NSMutableDictionary dictionary];
             for (NSInteger n = 0; n < columns.count; n++) {
                 //
                 id value = [self getColumnValue:statement atIndex:n];
                 if (![value isEqual:[NSNull null]]) {
                     Column *column = [columns objectAtIndex:n];
-                    NSDictionary *columnDic = [NSDictionary dictionaryWithObject:value forKey:column.name];
-                    
-                    [arrays addObject:columnDic];
+
+                    [columnDic setObject:value forKey:column.name];
                 }
-                
             }
-            
-            [result.results addObject:arrays];
+
+            [result.results addObject:columnDic];
         }
         
         return result;
@@ -239,12 +309,13 @@ static LXSqlite *shareInstance = nil;
                                                   char *err;
                                                   if (sqlite3_exec(_db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK)
                                                   {
-                                                      result.state = [self errorMessage:sql errorMessage:[NSString stringWithUTF8String:err]];
+                                                      result.message = [self errorMessage:sql errorMessage:[NSString stringWithUTF8String:err]];
+                                                      result.code = 400;
                                                       sqlite3_free(err);
                                                   }else{
-                                                      result.state = [self succeedMessage:sql];
+                                                      result.message = [self succeedMessage:sql];
+                                                      result.code = 200;
                                                   }
-                                                  
                                                   return result;
                                               }];
     
@@ -363,7 +434,7 @@ static LXSqlite *shareInstance = nil;
  
  if (errorCode != SQLITE_OK) {
  //sql 错误
- result.state = [self errorMessage:sql errorCode:errorCode];
+ result.message = [self errorMessage:sql errorCode:errorCode];
  }else{
  //sql 正确解析
  while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -371,7 +442,7 @@ static LXSqlite *shareInstance = nil;
  id _model =  [self checkProperty:className statement:statement];
  [result.results addObject:_model];
  }
- result.state = [self succeedMessage:sql];
+ result.message = [self succeedMessage:sql];
  }
  
  //释放staement

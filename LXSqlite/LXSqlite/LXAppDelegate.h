@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// Menu
 @interface MenuEntity : NSObject
 
 @property (assign) NSInteger sid;
