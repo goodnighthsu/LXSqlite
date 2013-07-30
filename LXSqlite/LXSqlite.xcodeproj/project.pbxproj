@@ -37,7 +37,6 @@
 
 /* Begin PBXFileReference section */
 		356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = PurpleMountain.sqlite; sourceTree = "<group>"; };
-		356A0E3617A772290084DBDF /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
 		356A0E3917A792D80084DBDF /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
 		356A0E3A17A792D80084DBDF /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
 		35BA0FA716D3E2E600174B6E /* LXSqlite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LXSqlite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +53,7 @@
 		35BA0FBF16D3E2E600174B6E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		35BA0FC116D3E2E600174B6E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		35BA0FCE16D3E3F800174B6E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		35F5118617A7A2F800633552 /* readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +83,7 @@
 		35BA0F9C16D3E2E600174B6E = {
 			isa = PBXGroup;
 			children = (
-				356A0E3617A772290084DBDF /* Readme.markdown */,
+				35F5118617A7A2F800633552 /* readme.markdown */,
 				35BA0FB116D3E2E600174B6E /* LXSqlite */,
 				35BA0FAA16D3E2E600174B6E /* Frameworks */,
 				35BA0FA816D3E2E600174B6E /* Products */,
@@ -340,6 +340,7 @@
 				356A0E3117A76E240084DBDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35BA0FA116D3E2E600174B6E /* Build configuration list for PBXProject "LXSqlite" */ = {
 			isa = XCConfigurationList;
