@@ -1,7 +1,7 @@
 Objective-c 封装的sqlite接口
 
 #安装#
-1、添加LXSqlite下的LXSqlite.h、 LXSqlte.m
+1、添加LXSqlite下的LXSqlite.h、 LXSqlite.m
 
 2、添加libsqlite3.0.dylib
 

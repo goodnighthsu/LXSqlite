@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		356A0E2E17A6821E0084DBDF /* PurpleMountain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */; };
-		356A0E3B17A792D80084DBDF /* LXSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 356A0E3A17A792D80084DBDF /* LXSqlite.m */; };
+		35746B1018AC88D40042253B /* LXSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = 35746B0F18AC88D40042253B /* LXSqlite.m */; };
 		35BA0FAC16D3E2E600174B6E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAB16D3E2E600174B6E /* UIKit.framework */; };
 		35BA0FAE16D3E2E600174B6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAD16D3E2E600174B6E /* Foundation.framework */; };
 		35BA0FB016D3E2E600174B6E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35BA0FAF16D3E2E600174B6E /* CoreGraphics.framework */; };
@@ -37,8 +37,8 @@
 
 /* Begin PBXFileReference section */
 		356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = PurpleMountain.sqlite; sourceTree = "<group>"; };
-		356A0E3917A792D80084DBDF /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
-		356A0E3A17A792D80084DBDF /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
+		35746B0E18AC88D40042253B /* LXSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXSqlite.h; sourceTree = "<group>"; };
+		35746B0F18AC88D40042253B /* LXSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXSqlite.m; sourceTree = "<group>"; };
 		35BA0FA716D3E2E600174B6E /* LXSqlite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LXSqlite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35BA0FAB16D3E2E600174B6E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		35BA0FAD16D3E2E600174B6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -71,13 +71,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		356A0E3817A792D80084DBDF /* LXSqlite */ = {
+		35746B0D18AC88D40042253B /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				356A0E3917A792D80084DBDF /* LXSqlite.h */,
-				356A0E3A17A792D80084DBDF /* LXSqlite.m */,
+				35746B0E18AC88D40042253B /* LXSqlite.h */,
+				35746B0F18AC88D40042253B /* LXSqlite.m */,
 			);
-			path = LXSqlite;
+			path = Class;
 			sourceTree = "<group>";
 		};
 		35BA0F9C16D3E2E600174B6E = {
@@ -112,7 +112,7 @@
 		35BA0FB116D3E2E600174B6E /* LXSqlite */ = {
 			isa = PBXGroup;
 			children = (
-				356A0E3817A792D80084DBDF /* LXSqlite */,
+				35746B0D18AC88D40042253B /* Class */,
 				356A0E2D17A6821E0084DBDF /* PurpleMountain.sqlite */,
 				35BA0FBA16D3E2E600174B6E /* LXAppDelegate.h */,
 				35BA0FBB16D3E2E600174B6E /* LXAppDelegate.m */,
@@ -221,8 +221,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				35BA0FB816D3E2E600174B6E /* main.m in Sources */,
+				35746B1018AC88D40042253B /* LXSqlite.m in Sources */,
 				35BA0FBC16D3E2E600174B6E /* LXAppDelegate.m in Sources */,
-				356A0E3B17A792D80084DBDF /* LXSqlite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
